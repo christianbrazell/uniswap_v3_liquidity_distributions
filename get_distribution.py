@@ -2,8 +2,12 @@ import os
 import argparse
 import pandas as pd
 
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 from utils.subgraph import *
 from utils.uniswap import *
+from utils.market import *
 
 url = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3?source=uniswap" # Subgraph URL
 default_pool_address = "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640"  # Default USDC/ETH 0.05%
@@ -98,3 +102,17 @@ if __name__ == "__main__":
 
     # Add lp distribution to pool object
     pool.lp = tick_df[['price', 'amount', 'amount_0', 'amount_1', 'amount_1_adj']]
+
+    # Plot
+    plt.style.use("dark_background")
+    plt.figure(figsize=(10, 8), dpi=100)  # 80)
+
+    sns.lineplot(data=pool.lp, x="price", y="amount")
+    plt.fill_between(x=pool.lp['price'], y1=pool.lp['amount'], alpha=0.3)
+    plt.axvline(x=pool.active_tick_price, color='red', linestyle='--')
+
+    plt.title(f"Liquidity Distribution, UniswapV3 {pool.token_0.symbol}/{pool.token_1.symbol} {pool.fee_tier}")
+    plt.xlabel(f"Price [{pool.token_0.symbol}]")
+    plt.ylabel(f"Liquidity in Tick [{pool.token_0.symbol}]")
+    plt.grid(alpha=0.2)
+    plt.show()
