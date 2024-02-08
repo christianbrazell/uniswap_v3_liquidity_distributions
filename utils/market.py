@@ -48,6 +48,6 @@ def get_efficiency(depth, pool, order_type):
 def get_tilt(depth, pool):
     liquidity_buy = get_liquidity_in_depth(depth, pool, 'buy')
     liquidity_sell = get_liquidity_in_depth(depth, pool, 'sell')
-    tilt = liquidity_sell.amount.sum() / liquidity_buy.amount.sum()
+    tilt = liquidity_buy.amount.sum() / liquidity_sell.amount.sum()
 
     return tilt
