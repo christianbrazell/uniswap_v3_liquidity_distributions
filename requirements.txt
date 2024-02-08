@@ -1,3 +1,5 @@
 requests
 numpy
 pandas
+seaborn
+matplotlib

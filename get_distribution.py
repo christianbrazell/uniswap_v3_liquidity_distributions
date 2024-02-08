@@ -1,5 +1,6 @@
 import os
 import argparse
+import pandas as pd
 
 from utils.subgraph import *
 from utils.uniswap import *
@@ -61,9 +62,7 @@ if __name__ == "__main__":
     tick_data = tick_response.json()['data']['ticks']
 
     # Process ticks
-    tick_df = pd.DataFrame(tick_data)
-    for col in tick_df.columns:
-        tick_df[col] = pd.to_numeric(tick_df[col], errors='coerce', downcast='float')
+    tick_df = pd.DataFrame(tick_data, dtype=float)
     tick_df['cumulative_liquidityNet'] = tick_df['liquidityNet'].cumsum()
 
     # Calculate liquidity at each tick
@@ -71,7 +70,7 @@ if __name__ == "__main__":
     active_tick_df = tick_df.loc[tick_df.tickIdx == pool.active_tick_lower]
     liquidity_offset = pool.liquidity - active_tick_df.cumulative_liquidityNet.values[0]
 
-    # Second, add this offset to all ticks to get their liquidity
+    # Now add this offset to all ticks net liquidity to get their liquidity
     tick_df['liquidity'] = tick_df.cumulative_liquidityNet + liquidity_offset
 
     # Convert liquidity into real token amounts
@@ -90,7 +89,12 @@ if __name__ == "__main__":
     tick_df['amount_0'] = token_amount_0_list
     tick_df['amount_1'] = token_amount_1_list
 
+    # Convert token amounts to token_0 prices and aggregate
+    tick_df['amount_1_adj'] = tick_df.amount_1 * pool.active_tick_price
+    tick_df['amount'] = tick_df.amount_0 + tick_df.amount_1_adj
+
     # Include price at each tick, for reference
     tick_df['price'] = tick_to_adjusted_price(tick_df['tickIdx'], pool.token_0, pool.token_1)
 
-    lp_df = tick_df[['price', 'amount_0', 'amount_1']]
+    # Add lp distribution to pool object
+    pool.lp = tick_df[['price', 'amount', 'amount_0', 'amount_1', 'amount_1_adj']]

@@ -1,5 +1,4 @@
 import math
-import pandas as pd
 
 
 def fee_tier_to_tick_spacing(fee_tier):
@@ -23,13 +22,6 @@ def process_tick(tick, pool):
     tick_lower = tick.tick_lower
     tick_upper = tick.tick_upper
     liquidity = tick.liquidity
-
-    # Get lower tick price for reference
-    adj_price = tick_to_adjusted_price(
-        tick_lower,
-        pool.token_0,
-        pool.token_1
-    )
 
     # Get unadjusted sqrt prices of ticks
     price = tick_to_price(pool.tick)
@@ -82,3 +74,5 @@ class Pool:
         self.tick_spacing = fee_tier_to_tick_spacing(self.fee_tier)
         self.active_tick_lower = math.floor(self.tick / self.tick_spacing) * self.tick_spacing
         self.active_tick_upper = self.active_tick_lower + self.tick_spacing
+        self.active_tick_price = tick_to_adjusted_price(self.tick, self.token_0, self.token_1)
+        self.lp = None
