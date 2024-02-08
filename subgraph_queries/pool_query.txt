@@ -1,0 +1,21 @@
+query pool($poolAddress: String!) {
+  pool(id: $poolAddress) {
+    tick
+    token0 {
+      symbol
+      id
+      decimals
+      __typename
+    }
+    token1 {
+      symbol
+      id
+      decimals
+      __typename
+    }
+    feeTier
+    sqrtPrice
+    liquidity
+    __typename
+  }
+}
