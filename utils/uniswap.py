@@ -45,7 +45,7 @@ def process_tick(tick, pool):
     elif pool.active_tick_upper <= tick_lower:
         amount_0 = liquidity * (sb - sa) / (sa * sb)
         amount_1 = 0.00
-    # If tick range includes active tick
+    # If tick range is at active tick
     elif (pool.tick > tick_lower) and (pool.tick < tick_upper):
         amount_0 = liquidity * (sb - sp) / (sp * sb)
         amount_1 = liquidity * (sp - sa)

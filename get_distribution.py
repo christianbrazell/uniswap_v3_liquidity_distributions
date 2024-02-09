@@ -85,8 +85,8 @@ if __name__ == "__main__":
     # Second, process the LP amounts tick by tick
     token_amount_0_list = []
     token_amount_1_list = []
-    for (index, row) in tick_df.iterrows():
-        amount_0, amount_1 = process_tick(row, pool)
+    for (index, tick) in tick_df.iterrows():
+        amount_0, amount_1 = process_tick(tick, pool)
         token_amount_0_list.append(amount_0)
         token_amount_1_list.append(amount_1)
 
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 
     # Plot
     plt.style.use("dark_background")
-    plt.figure(figsize=(10, 8), dpi=100)  # 80)
+    plt.figure(figsize=(10, 8), dpi=100)
 
     sns.lineplot(data=pool.lp, x="price", y="amount")
     plt.fill_between(x=pool.lp['price'], y1=pool.lp['amount'], alpha=0.3)
