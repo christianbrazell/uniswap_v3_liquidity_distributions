@@ -18,6 +18,11 @@ def tick_to_price(tick):
     return 1.0001 ** tick
 
 
+def percent_to_ticks(percent, pool): ###
+    ticks = None
+    return ticks
+
+
 def process_tick(tick, pool):
     tick_lower = tick.tick_lower
     tick_upper = tick.tick_upper
@@ -64,7 +69,18 @@ class Token:
 
 
 class Pool:
+    """
+    Include the following in cache:
+    pool_address
+    token_0.symbol
+    token_1.symbol
+    fee_tier
+    active_tick_price
+    tick
+    lp
+    """
     def __init__(self, pool):
+        self.pool_address = pool['id']
         self.token_0 = Token(pool['token0'])
         self.token_1 = Token(pool['token1'])
         self.tick = int(pool['tick'])

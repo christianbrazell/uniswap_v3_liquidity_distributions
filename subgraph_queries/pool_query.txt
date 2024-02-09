@@ -1,8 +1,8 @@
 query pool($poolAddress: String!) {
   pool(id: $poolAddress) {
+    id
     tick
     feeTier
-    sqrtPrice
     liquidity
     token0 {
       symbol
