@@ -4,4 +4,3 @@ pandas
 seaborn
 matplotlib
 ccxt
-pickle
