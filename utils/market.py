@@ -3,11 +3,13 @@ import numpy as np
 
 
 def get_liquidity_in_depth(depth, pool, order_type):
+    # First take from token supply at current tick
+    # Second
     if order_type == 'buy':
         depth_price = pool.active_tick_price * (1. + depth)
         liquidity_in_depth = pool.lp.loc[
-            (pool.lp.price > pool.active_tick_price) &
-            (pool.lp.price <= depth_price)
+            (pool.lp.price >= pool.active_tick_price) &
+            (pool.lp.price < depth_price)
         ]
     elif order_type == 'sell':
         depth_price = pool.active_tick_price * (1. - depth)

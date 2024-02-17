@@ -1,6 +1,8 @@
 import os
 import argparse
 import pandas as pd
+from datetime import datetime
+import pickle
 
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -22,6 +24,7 @@ with open(pool_query_path, 'r') as file:
 
 with open(tick_query_path, 'r') as file:
     tick_query = file.read()
+
 
 if __name__ == "__main__":
 
@@ -116,3 +119,17 @@ if __name__ == "__main__":
     plt.ylabel(f"Liquidity in Tick [{pool.token_0.symbol}]")
     plt.grid(alpha=0.2)
     plt.show()
+
+    # Ensure the data directories exists
+    os.makedirs('data', exist_ok=True)
+    os.makedirs(os.path.join('data', pool_address), exist_ok=True)
+
+    # Save data
+    timestamp = datetime.now().strftime('%Y-%m-%d_%H')
+    filename_csv = os.path.join("data", pool_address, f"{timestamp}.csv")
+    filename_pkl = os.path.join("data", pool_address, f"{timestamp}.pkl")
+
+    pool.lp.to_csv(filename_csv, index=False)
+    with open(filename_pkl, 'wb') as file:
+        pickle.dump(pool, file)
+
