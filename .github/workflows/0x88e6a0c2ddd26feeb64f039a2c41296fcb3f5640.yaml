@@ -28,11 +28,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: List files in the repository
-      run: ls -la
-
     - name: Fetch and process LP distribution
-      run: python get_distributions.py --pool_id 0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640 --surround_ticks 300
+      run: |
+        python get_distribution.py --pool_id 0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640 --surround_ticks 300
 
     - name: Commit and push if there are changes
       run: |
