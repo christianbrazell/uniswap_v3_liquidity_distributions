@@ -1,4 +1,4 @@
-name: Save distribution 0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640
+name: Save distribution 0xcbcdf9626bc03e24f779434178a73a0b4bad62ed
 
 on:
   schedule:
@@ -28,10 +28,10 @@ jobs:
 
     - name: Fetch and process LP distribution
       run: |
-        python get_distribution.py --pool_id 0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640 --surround_ticks 300
+        python get_distribution.py --pool_id 0xcbcdf9626bc03e24f779434178a73a0b4bad62ed --surround_ticks 300
 
     - name: Commit and push if there are changes
       run: |
-        git add data/0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640
+        git add data/0xcbcdf9626bc03e24f779434178a73a0b4bad62ed
         git commit -m "Update data" -a || echo "No changes to commit"
         git push
