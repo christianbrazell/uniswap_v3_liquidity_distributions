@@ -1,7 +1,12 @@
 import pandas as pd
 import numpy as np
 
+"""
+WIP utils for analyzing pool liquidity dynamics, efficiency
 
+add to below functions:
+split token amounts at active tick (only account for token0 or token1 liquidity)
+"""
 def get_liquidity_in_depth(depth, pool, order_type):
     # First take from token supply at current tick
     # Second
