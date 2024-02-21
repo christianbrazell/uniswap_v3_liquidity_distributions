@@ -2,7 +2,7 @@ name: Save LP Distributions
 
 on:
   schedule:
-    # Runs at the start of every hour
+    # Run at the start of every hour
     - cron: '0 * * * *'
 
 jobs:
