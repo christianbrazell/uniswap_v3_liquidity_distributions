@@ -34,13 +34,15 @@ for pool in pools:
         plt.figure(figsize=(10, 8), dpi=100)
 
         sns.lineplot(data=p.lp, x="price", y="amount")
-        plt.fill_between(x=p.lp['price'], y1=p.lp['amount'], alpha=0.3)
-        plt.axvline(x=p.active_tick_price, color='red', linestyle='--')
+        plt.fill_between(x=p.lp['price'], y1=p.lp['amount'], alpha=0.3, label='Liquidity deposited in tick')
+        plt.axvline(x=p.active_tick_price, color='red', linestyle='--', label='Active Price')
 
         plt.title(f"{fname[:-4]} UniswapV3 {p.token_0.symbol}/{p.token_1.symbol} {p.fee_tier}")
+        plt.legend(loc='upper left')
         plt.xlabel(f"Price [{p.token_0.symbol}]")
         plt.ylabel(f"Liquidity in Tick [{p.token_0.symbol}]")
         plt.grid(alpha=0.2)
+        plt.ylim(0, 700000)
 
         plt.savefig(os.path.join(image_path, fname[:-4]+'.png'))
         plt.close()
@@ -54,6 +56,6 @@ for pool in pools:
     imageio.mimsave(
     f'{pool}.gif',
         frames,
-        fps=7,
+        fps=10,
         loop=0
     )

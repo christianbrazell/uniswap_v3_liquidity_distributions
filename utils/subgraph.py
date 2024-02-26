@@ -2,7 +2,7 @@ import requests
 import sys
 
 
-def submit_payload(request_url, json_payload):
+def submit_payload(request_url: str, json_payload: dict):
     try:
         response = requests.post(request_url, json=json_payload)
         response.raise_for_status()

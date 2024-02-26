@@ -1,7 +1,7 @@
 import math
 
 
-def fee_tier_to_tick_spacing(fee_tier):
+def fee_tier_to_tick_spacing(fee_tier: str):
     return {
         '10000': 200,
         '3000': 60,
